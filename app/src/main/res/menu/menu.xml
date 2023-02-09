@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/jadsol"
+        app:showAsAction="never"
+        android:title="Jadwal Sholat"/>
+
+    <item
+        app:showAsAction="never"
+        android:id="@+id/uangmas"
+        android:title="Keuangan Masjid" />
+
+    <item android:id="@+id/kegmas"
+        app:showAsAction="never"
+        android:title="Kegiatan Masjid"/>
+
+    <item android:id="@+id/petjum"
+        app:showAsAction="never"
+        android:title="Data Petugas Jumat"/>
+
+    <item android:id="@+id/zak"
+        app:showAsAction="never"
+        android:title="Data Zakat"/>
+
+    <item
+        android:id="@+id/kurb"
+        app:showAsAction="never"
+        android:title="Data Kurban"/>
+
+    <item
+        android:id="@+id/inven"
+        app:showAsAction="never"
+        android:title="Inventaris Masjid"/>
+</menu>
