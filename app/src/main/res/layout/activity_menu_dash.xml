@@ -8,52 +8,39 @@
     android:orientation="vertical"
     android:background="@drawable/bg">
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/lin"
-    android:orientation="vertical">
-
     <androidx.cardview.widget.CardView
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:id="@+id/cardd"
-        android:layout_height="60dp"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="10dp"
-        android:layout_marginStart="30dp">
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:text="@string/salam"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.denzcoskun.imageslider.ImageSlider
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/imaslide"
+                app:iss_period="1000"
+                app:iss_auto_cycle="true"
+                app:iss_delay="2000" />
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#fff"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:text="MENU"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="10dp"/>
-</LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/lin">
+        android:layout_below="@+id/cardd"
+        android:layout_marginTop="30dp">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            app:cardElevation="10dp"
             android:id="@+id/jadwal"
-            android:layout_marginStart="45dp"
-            app:cardCornerRadius="10dp">
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,30 +48,29 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="20dp"
                     android:src="@drawable/jadwal" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="JADWAL SHOLAT"
                     android:gravity="center"
+                    android:text="Jadwal Sholat"
                     android:textColor="#000"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            app:cardElevation="10dp"
             android:id="@+id/keuangan"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="50dp"
             android:layout_toRightOf="@id/jadwal"
-            android:layout_marginStart="90dp"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -92,31 +78,29 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="20dp"
-                    android:src="@drawable/uang"/>
+                    android:src="@drawable/uang" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="KEUANGAN MASJID"
-                    android:textColor="#000"
                     android:gravity="center"
-                    android:layout_marginTop="5dp"
+                    android:text="Keuangan Masjid"
+                    android:textColor="#000"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            app:cardElevation="10dp"
-            android:layout_below="@id/jadwal"
             android:id="@+id/kegiatan"
-            android:layout_marginTop="40dp"
-            android:layout_marginStart="45dp"
-            app:cardCornerRadius="10dp">
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="50dp"
+            android:layout_toRightOf="@id/keuangan"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -124,32 +108,30 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="20dp"
                     android:src="@drawable/kegia" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="KEGIATAN MASJID"
                     android:gravity="center"
+                    android:text="Kegiatan Masjid"
                     android:textColor="#000"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            app:cardElevation="10dp"
-            android:layout_marginTop="40dp"
             android:id="@+id/petugas"
-            android:layout_toRightOf="@id/kegiatan"
-            android:layout_below="@id/keuangan"
-            android:layout_marginStart="90dp"
-            app:cardCornerRadius="10dp">
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_below="@id/jadwal"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="40dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -157,31 +139,31 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="20dp"
-                    android:src="@drawable/petu"/>
+                    android:src="@drawable/petu" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="PETUGAS JUMAT"
-                    android:textColor="#000"
                     android:gravity="center"
-                    android:layout_marginTop="5dp"
+                    android:text="Petugas Jumat"
+                    android:textColor="#000"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            app:cardElevation="10dp"
-            android:layout_below="@id/kegiatan"
             android:id="@+id/zakat"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_below="@id/keuangan"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="40dp"
-            android:layout_marginStart="45dp"
-            app:cardCornerRadius="10dp">
+            android:layout_toRightOf="@id/petugas"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -189,32 +171,32 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="20dp"
                     android:src="@drawable/zakat" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="DATA ZAKAT"
                     android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="Data Zakat"
                     android:textColor="#000"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            app:cardElevation="10dp"
-            android:layout_marginTop="40dp"
             android:id="@+id/kurban"
-            android:layout_toRightOf="@id/kegiatan"
-            android:layout_below="@id/petugas"
-            android:layout_marginStart="90dp"
-            app:cardCornerRadius="10dp">
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_below="@id/kegiatan"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="40dp"
+            android:layout_toRightOf="@id/zakat"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -222,31 +204,31 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="20dp"
-                    android:src="@drawable/kurban"/>
+                    android:src="@drawable/kurban" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="DATA KURBAN"
-                    android:textColor="#000"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:layout_marginTop="5dp"
+                    android:text="Data Kurban"
+                    android:textColor="#000"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            app:cardElevation="10dp"
-            android:layout_below="@id/zakat"
             android:id="@+id/inven"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_below="@id/petugas"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="40dp"
-            android:layout_marginStart="132dp"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -254,17 +236,16 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="20dp"
                     android:src="@drawable/inven" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="DATA INVENTARIS MASJID"
                     android:gravity="center"
+                    android:text="Inventaris Masjid"
                     android:textColor="#000"
                     android:textStyle="bold" />
             </LinearLayout>

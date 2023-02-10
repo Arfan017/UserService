@@ -8,11 +8,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
 
 public class MenuDash extends AppCompatActivity implements View.OnClickListener {
 
+    ImageSlider imagslid;
     BottomNavigationView botnavigas;
     CardView jdwl,inve,kegi,keu,kur,petug,zak;
     @Override
@@ -27,6 +34,7 @@ public class MenuDash extends AppCompatActivity implements View.OnClickListener 
         zak = findViewById(R.id.zakat);
         kur = findViewById(R.id.kurban);
         inve = findViewById(R.id.inven);
+        imagslid = findViewById(R.id.imaslide);
 
         jdwl.setOnClickListener(this);
         keu.setOnClickListener(this);
@@ -36,6 +44,7 @@ public class MenuDash extends AppCompatActivity implements View.OnClickListener 
         kur.setOnClickListener(this);
         inve.setOnClickListener(this);
 
+        imagesl();
         botnavigas = findViewById(R.id.botmenu);
         botnavigas.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -54,6 +63,15 @@ public class MenuDash extends AppCompatActivity implements View.OnClickListener 
                 return false;
             }
         });
+    }
+
+    public void imagesl(){
+        ArrayList<SlideModel> slidemod = new ArrayList<>();
+        slidemod.add(new SlideModel(R.drawable.masjid1, ScaleTypes.FIT));
+        slidemod.add(new SlideModel(R.drawable.masjid2, ScaleTypes.FIT));
+        slidemod.add(new SlideModel(R.drawable.masjid3, ScaleTypes.FIT));
+        slidemod.add(new SlideModel(R.drawable.masjid4, ScaleTypes.FIT));
+        imagslid.setImageList(slidemod, ScaleTypes.FIT);
     }
 
     @Override
