@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/bak"
+        android:title="BACK"
+        android:icon="@drawable/bek"
+        android:enabled="true" />
+
+    <item
+        android:id="@+id/homm"
+        android:title="HOME"
+        android:icon="@drawable/home"
+        android:enabled="true" />
+
+
+    <item
+        android:id="@+id/exii"
+        android:title="EXIT"
+        android:icon="@drawable/exit"
+        android:enabled="true"/>
+
+</menu>

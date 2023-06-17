@@ -5,46 +5,75 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DataKeuangan"
-    android:background="@drawable/bg">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:background="@drawable/bg"
+    android:clipToOutline="true">
 
         <LinearLayout
-            android:id="@+id/linlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/linn">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-black"
-                android:lineHeight="40sp"
-                android:shadowColor="#40000000"
-                android:shadowDx="2"
-                android:shadowDy="4"
-                android:shadowRadius="4"
-                android:text="DATA KEUANGAN MASJID"
-                android:textColor="@color/white"
-                android:textSize="20dp" />
-            <HorizontalScrollView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <LinearLayout
-                android:layout_width="700dp"
-                android:layout_height="match_parent">
-                <WebView
-                    android:id="@+id/view"
-                    android:layout_width="1000dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"/>
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="#FFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TOTAL UANG"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="5dp"/>
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/donat"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SALDO"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="18dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:id="@+id/total"
+                        android:textSize="18dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:layout_marginBottom="5dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recylcerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="57dp"/>
             </LinearLayout>
-            </HorizontalScrollView>
-            </LinearLayout>
-    </ScrollView>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,4 +84,5 @@
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
         app:menu="@menu/item_list"/>
+
 </RelativeLayout>

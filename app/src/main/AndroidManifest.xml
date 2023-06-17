@@ -18,9 +18,21 @@
         android:theme="@style/Apa"
         tools:targetApi="31">
         <activity
+            android:name=".DetailTransaksi"
+            android:exported="false" />
+        <activity
+            android:name=".Tentang"
+            android:exported="false" />
+        <activity
+            android:name=".DetailInven"
+            android:exported="false" />
+        <activity
+            android:name=".DetailKeuangan"
+            android:exported="false" />
+        <activity
             android:name=".MenuDash"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Splash"
             android:exported="true"
@@ -33,6 +45,9 @@
         </activity>
         <activity
             android:name=".DataPetugasJum"
+            android:exported="false" />
+        <activity
+            android:name=".DataPengurus"
             android:exported="false" />
         <activity
             android:name=".DataKegiatan"

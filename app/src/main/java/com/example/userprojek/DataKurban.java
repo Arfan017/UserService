@@ -2,6 +2,8 @@ package com.example.userprojek;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,11 +13,15 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.userprojek.adapter.AdapKurban;
+import com.example.userprojek.adapter.AdapZakat;
 import com.example.userprojek.modul.DatKurban;
 import com.example.userprojek.modul.DatZakat;
 import com.example.userprojek.networking.ApiClient;
@@ -31,16 +37,23 @@ import retrofit2.Response;
 public class DataKurban extends AppCompatActivity {
     BottomNavigationView botnavii;
     List<DatKurban> listkurban;
-    TableLayout t;
     ApiInterface api;
+    RecyclerView recy;
+    AdapKurban adp;
+    LinearLayoutManager linearLayoutManager;
+    ProgressBar barr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setTitle("");
+        this.setTitle("DATA KURBAN");
         setContentView(R.layout.activity_data_kurban);
-        t = findViewById(R.id.tabkurban);
-        initViews();
         botnavii = findViewById(R.id.botkurban);
+        recy = findViewById(R.id.recykurban);
+        barr = findViewById(R.id.prograskurban);
+
+        linearLayoutManager = new LinearLayoutManager(this);
+        recy.setLayoutManager(linearLayoutManager);
+        baik();
         botnavii.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -107,42 +120,17 @@ public class DataKurban extends AppCompatActivity {
         return true;
     }
 
-    @NonNull
-    private TableRow.LayoutParams getLayoutParams() {
-        TableRow.LayoutParams params = new TableRow.LayoutParams(
-                TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT);
-        params.setMargins(1, 1, 1, 1);
-        params.weight = 1;
-        return params;
-    }
-
-    @NonNull
-    private TableLayout.LayoutParams getTblLayoutParams() {
-        return new TableLayout.LayoutParams(
-                TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT);
-    }
-
-    public void initViews(){
+    public void baik(){
         api = ApiClient.getClient().create(ApiInterface.class);
         Call<List<DatKurban>> call = api.getDatakurban();
         call.enqueue(new Callback<List<DatKurban>>() {
             @Override
             public void onResponse(Call<List<DatKurban>> call, Response<List<DatKurban>> response) {
-                if(response.isSuccessful()){
-                    addHeaders();
-                    listkurban = response.body();
-                    for (int i = 0; i < listkurban.size(); i++) {
-                        TableRow tr = new TableRow(DataKurban.this);
-                        tr.setLayoutParams(getLayoutParams());
-                        tr.addView(getRowsTextView(0, listkurban.get(i).getIdQurban(), Color.BLACK, Typeface.BOLD, R.color.white, Gravity.CENTER));
-                        tr.addView(getRowsTextView(0, listkurban.get(i).getPemberiKurban(), Color.BLACK, Typeface.BOLD ,R.color.white, Gravity.CENTER ));
-                        tr.addView(getRowsTextView(0, listkurban.get(i).getJenisHewan(), Color.BLACK, Typeface.BOLD ,R.color.white, Gravity.CENTER));
-                        t.addView(tr, getTblLayoutParams());
-                    }
-                }else{
-                }
+                barr.setVisibility(View.GONE);
+                listkurban = response.body();
+                adp = new AdapKurban(DataKurban.this, listkurban);
+                recy.setAdapter(adp);
+                adp.notifyDataSetChanged();
             }
             @Override
             public void onFailure(Call<List<DatKurban>> call, Throwable t) {
@@ -150,42 +138,4 @@ public class DataKurban extends AppCompatActivity {
             }
         });
     }
-
-    public void addHeaders() {
-
-        TableRow tr = new TableRow(this);
-        tr.setLayoutParams(getLayoutParams());
-
-        tr.addView(getTextView(0, "ID KURBAN", Color.WHITE, Typeface.BOLD, R.color.black, Gravity.CENTER));
-        tr.addView(getTextView(0, "PEMBERI KURBAN", Color.WHITE, Typeface.BOLD, R.color.black, Gravity.CENTER));
-        tr.addView(getTextView(0, "JENIS HEWAN", Color.WHITE, Typeface.BOLD, R.color.black, Gravity.CENTER));
-        t.addView(tr, getTblLayoutParams());
-    }
-    private TextView getTextView(int id, String title, int color, int typeface, int bgColor, int grav) {
-        TextView tv = new TextView(this);
-        tv.setId(id);
-        tv.setText(title.toUpperCase());
-        tv.setTextColor(color);
-        tv.setGravity(grav);
-        tv.setPadding(10, 10, 10, 10);
-        tv.setTypeface(Typeface.DEFAULT, typeface);
-        tv.setBackgroundColor(bgColor);
-        tv.setBackgroundResource(bgColor);
-        tv.setLayoutParams(getLayoutParams());
-        return tv;
-    }
-
-    private TextView getRowsTextView(int id, String title, int color, int typeface,int bgColor, int grav) {
-        TextView tv = new TextView(this);
-        tv.setId(id);
-        tv.setGravity(grav);
-        tv.setText(title);
-        tv.setTextColor(color);
-        tv.setPadding(10, 10, 10, 10);
-        tv.setTypeface(Typeface.DEFAULT, typeface);
-        tv.setBackgroundResource(bgColor);
-        tv.setLayoutParams(getLayoutParams());
-        return tv;
-    }
-
 }

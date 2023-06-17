@@ -2,6 +2,8 @@ package com.example.userprojek;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,11 +13,16 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.userprojek.adapter.AdapPetugas;
+import com.example.userprojek.adapter.AdapZakat;
+import com.example.userprojek.modul.DatPetugasJum;
 import com.example.userprojek.modul.DatZakat;
 import com.example.userprojek.networking.ApiClient;
 import com.example.userprojek.networking.ApiInterface;
@@ -31,16 +38,23 @@ public class DataZakat extends AppCompatActivity {
 
     List<DatZakat> listzakat;
     BottomNavigationView bott;
-    TableLayout tab;
     ApiInterface api;
+    RecyclerView recy;
+    AdapZakat adp;
+    LinearLayoutManager linearLayoutManager;
+    ProgressBar barr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setTitle("");
+        this.setTitle("DATA ZAKAT");
         setContentView(R.layout.activity_data_zakat);
-        tab = findViewById(R.id.tabzakat);
-        initViews();
         bott = findViewById(R.id.botzakat);
+        recy = findViewById(R.id.recyzakat);
+        barr = findViewById(R.id.prograszakat);
+
+        linearLayoutManager = new LinearLayoutManager(this);
+        recy.setLayoutManager(linearLayoutManager);
+        baiklah();
         bott.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -107,87 +121,22 @@ public class DataZakat extends AppCompatActivity {
         }
         return true;
     }
-
-    @NonNull
-    private TableRow.LayoutParams getLayoutParams() {
-        TableRow.LayoutParams params = new TableRow.LayoutParams(
-                TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT);
-        params.setMargins(1, 1, 1, 1);
-        params.weight = 1;
-        return params;
-    }
-
-    @NonNull
-    private TableLayout.LayoutParams getTblLayoutParams() {
-        return new TableLayout.LayoutParams(
-                TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT);
-    }
-
-    public void initViews(){
+    public void baiklah(){
         api = ApiClient.getClient().create(ApiInterface.class);
         Call<List<DatZakat>> call = api.getDataZakat();
         call.enqueue(new Callback<List<DatZakat>>() {
             @Override
             public void onResponse(Call<List<DatZakat>> call, Response<List<DatZakat>> response) {
-                if(response.isSuccessful()){
-                    addHeaders();
-                    listzakat = response.body();
-                    for (int i = 0; i < listzakat.size(); i++) {
-                        TableRow tr = new TableRow(DataZakat.this);
-                        tr.setLayoutParams(getLayoutParams());
-                        tr.addView(getRowsTextView(0, listzakat.get(i).getIdZakat(), Color.BLACK, Typeface.BOLD, R.color.white, Gravity.CENTER));
-                        tr.addView(getRowsTextView(0, listzakat.get(i).getJenisZakat(), Color.BLACK, Typeface.BOLD ,R.color.white, Gravity.CENTER ));
-                        tr.addView(getRowsTextView(0, listzakat.get(i).getJumlahBeri(), Color.BLACK, Typeface.BOLD ,R.color.white, Gravity.CENTER));
-                        tr.addView(getRowsTextView(0, listzakat.get(i).getHasil(), Color.BLACK, Typeface.BOLD ,R.color.white, Gravity.CENTER));
-                        tab.addView(tr, getTblLayoutParams());
-                    }
-                }else{
-                }
+                barr.setVisibility(View.GONE);
+                listzakat = response.body();
+                adp = new AdapZakat(DataZakat.this, listzakat);
+                recy.setAdapter(adp);
+                adp.notifyDataSetChanged();
             }
             @Override
             public void onFailure(Call<List<DatZakat>> call, Throwable t) {
                 Toast.makeText(DataZakat.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    public void addHeaders() {
-
-        TableRow tr = new TableRow(this);
-        tr.setLayoutParams(getLayoutParams());
-
-        tr.addView(getTextView(0, "ID ZAKAT", Color.WHITE, Typeface.BOLD, R.color.black, Gravity.CENTER));
-        tr.addView(getTextView(0, "JENIS ZAKAT", Color.WHITE, Typeface.BOLD, R.color.black, Gravity.CENTER));
-        tr.addView(getTextView(0, "KADAR DAN PERHITUNGAN", Color.WHITE, Typeface.BOLD, R.color.black, Gravity.CENTER));
-        tr.addView(getTextView(0, "WAKTU", Color.WHITE, Typeface.BOLD, R.color.black, Gravity.CENTER));
-        tab.addView(tr, getTblLayoutParams());
-    }
-    private TextView getTextView(int id, String title, int color, int typeface, int bgColor, int grav) {
-        TextView tv = new TextView(this);
-        tv.setId(id);
-        tv.setText(title.toUpperCase());
-        tv.setTextColor(color);
-        tv.setGravity(grav);
-        tv.setPadding(10, 10, 10, 10);
-        tv.setTypeface(Typeface.DEFAULT, typeface);
-        tv.setBackgroundColor(bgColor);
-        tv.setBackgroundResource(bgColor);
-        tv.setLayoutParams(getLayoutParams());
-        return tv;
-    }
-
-    private TextView getRowsTextView(int id, String title, int color, int typeface,int bgColor, int grav) {
-        TextView tv = new TextView(this);
-        tv.setId(id);
-        tv.setGravity(grav);
-        tv.setText(title);
-        tv.setTextColor(color);
-        tv.setPadding(10, 10, 10, 10);
-        tv.setTypeface(Typeface.DEFAULT, typeface);
-        tv.setBackgroundResource(bgColor);
-        tv.setLayoutParams(getLayoutParams());
-        return tv;
     }
 }

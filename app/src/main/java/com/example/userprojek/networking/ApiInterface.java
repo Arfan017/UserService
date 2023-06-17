@@ -2,9 +2,11 @@ package com.example.userprojek.networking;
 
 import com.example.userprojek.modul.DatInventaris;
 import com.example.userprojek.modul.DatKegiatan;
+import com.example.userprojek.modul.DatKeuangan;
 import com.example.userprojek.modul.DatPetugasJum;
 import com.example.userprojek.modul.DatZakat;
 import com.example.userprojek.modul.DatKurban;
+import com.example.userprojek.modul.TotalUang;
 
 import java.util.List;
 
@@ -27,4 +29,12 @@ public interface ApiInterface {
 
     @GET("petugas_jumat.php")
     Call<List<DatPetugasJum>> getDataPetugas();
+
+    @GET("total.php")
+    Call<List<TotalUang>> getDatatotal();
+
+    @GET("uang.php")
+    Call<List<DatKeuangan>> getDataUang(
+            @Query("key") String keyword
+    );
 }

@@ -7,50 +7,19 @@
     tools:context=".DataInvenMasjid"
     android:background="@drawable/bg">
 
+<!--    <ProgressBar-->
+<!--        android:id="@+id/prograsinven"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content" />-->
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyinven"
         android:layout_width="match_parent"
-        android:layout_height="500dp">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="57dp"
+        tools:listitem="@layout/datainven" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/linlay"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="DATA INVENTARIS MASJID"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:shadowColor="#40000000"
-                android:shadowDx="2"
-                android:shadowDy="4"
-                android:shadowRadius="4"
-                android:fontFamily="sans-serif-black"
-                android:lineHeight="40sp"
-                android:layout_marginTop="20dp"/>
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TableLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tabinven"
-                        android:layout_marginTop="10dp"/>
-
-                </LinearLayout>
-            </HorizontalScrollView>
-        </LinearLayout>
-    </ScrollView>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -4,38 +4,38 @@ import com.google.gson.annotations.SerializedName;
 
 public class DatKegiatan{
 
-    @SerializedName("hari")
-    private String hari;
+	@SerializedName("hari")
+	private String hari;
 
-    @SerializedName("penangungjwb")
-    private String penangungjwb;
+	@SerializedName("penangungjwb")
+	private String penangungjwb;
 
-    @SerializedName("kegiatan")
-    private String kegiatan;
+	@SerializedName("foto")
+	private String foto;
 
-    @SerializedName("waktu")
-    private String waktu;
+	@SerializedName("kegiatan")
+	private String kegiatan;
 
-    @SerializedName("id_kegiatan")
-    private String idKegiatan;
+	@SerializedName("id_kegiatan")
+	private String idKegiatan;
 
-    public String getHari(){
-        return hari;
-    }
+	public String getHari(){
+		return hari;
+	}
 
-    public String getPenangungjwb(){
-        return penangungjwb;
-    }
+	public String getPenangungjwb(){
+		return penangungjwb;
+	}
 
-    public String getKegiatan(){
-        return kegiatan;
-    }
+	public String getFoto(){
+		return foto;
+	}
 
-    public String getWaktu(){
-        return waktu;
-    }
+	public String getKegiatan(){
+		return kegiatan;
+	}
 
-    public String getIdKegiatan(){
-        return idKegiatan;
-    }
+	public String getIdKegiatan(){
+		return idKegiatan;
+	}
 }

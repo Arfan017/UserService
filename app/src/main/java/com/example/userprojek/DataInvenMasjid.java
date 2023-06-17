@@ -1,8 +1,13 @@
 package com.example.userprojek;
 
+import static com.example.userprojek.networking.Konfigurasi.URL_IMAGES;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -11,36 +16,54 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.userprojek.modul.DatInventaris;
-import com.example.userprojek.networking.ApiClient;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.userprojek.adapter.AdapInven;
+import com.example.userprojek.modul.ModelInventory;
 import com.example.userprojek.networking.ApiInterface;
+import com.example.userprojek.networking.Konfigurasi;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
-public class DataInvenMasjid extends AppCompatActivity {
-
+public class DataInvenMasjid extends AppCompatActivity implements RecyclerViewInterface {
     BottomNavigationView botnavi;
-    List<DatInventaris> listinven;
-    TableLayout tab;
+    List<ModelInventory> ListInventaris;
     ApiInterface api;
+    RecyclerView recyclerView;
+//    ProgressBar barr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setTitle("");
+        this.setTitle("DATA INVENTARIS MASJID");
         setContentView(R.layout.activity_data_inven_masjid);
-        tab = findViewById(R.id.tabinven);
+
         botnavi = findViewById(R.id.botinven);
-        initViews();
+        recyclerView = findViewById(R.id.recyinven);
+//        barr = findViewById(R.id.prograsinven);
+
+        ListInventaris = new ArrayList<>();
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        GetDataInventory();
+
         botnavi.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -107,91 +130,93 @@ public class DataInvenMasjid extends AppCompatActivity {
         return true;
     }
 
-    @NonNull
-    private TableRow.LayoutParams getLayoutParams() {
-        TableRow.LayoutParams params = new TableRow.LayoutParams(
-                TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT);
-        params.setMargins(1, 1, 1, 1);
-        params.weight = 1;
-        return params;
-    }
+    private void GetDataInventory() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Konfigurasi.URL_GET_INVENTORY,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
 
-    @NonNull
-    private TableLayout.LayoutParams getTblLayoutParams() {
-        return new TableLayout.LayoutParams(
-                TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT);
-    }
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
 
-    public void initViews(){
-        api = ApiClient.getClient().create(ApiInterface.class);
-        Call<List<DatInventaris>> call = api.getDataInven();
-        call.enqueue(new Callback<List<DatInventaris>>() {
-            @Override
-            public void onResponse(Call<List<DatInventaris>> call, Response<List<DatInventaris>> response) {
-                if(response.isSuccessful()){
-                    addHeaders();
-                    listinven = response.body();
-                    for (int i = 0; i < listinven.size(); i++) {
-                        TableRow tr = new TableRow(DataInvenMasjid.this);
-                        tr.setLayoutParams(getLayoutParams());
-                        tr.addView(getRowsTextView(0, listinven.get(i).getId(), Color.BLACK, Typeface.BOLD, R.color.white, Gravity.CENTER));
-                        tr.addView(getRowsTextView(0, listinven.get(i).getNamaAset(), Color.BLACK, Typeface.BOLD ,R.color.white, Gravity.CENTER ));
-                        tr.addView(getRowsTextView(0, listinven.get(i).getJumlah(), Color.BLACK, Typeface.BOLD ,R.color.white, Gravity.CENTER));
-                        tr.addView(getRowsTextView(0, listinven.get(i).getSatuan(), Color.BLACK, Typeface.BOLD ,R.color.white, Gravity.CENTER));
-                        tr.addView(getRowsTextView(0, listinven.get(i).getKondisi(), Color.BLACK, Typeface.BOLD ,R.color.white, Gravity.CENTER));
-                        tr.addView(getRowsTextView(0, listinven.get(i).getKeterangan(), Color.BLACK, Typeface.BOLD ,R.color.white, Gravity.CENTER));
-                        tab.addView(tr, getTblLayoutParams());
+                                //getting _Inventory object from json array
+                                JSONObject _Inventory = array.getJSONObject(i);
+
+                                //adding the _Inventaris to _Inventaris list
+                                ListInventaris.add(new ModelInventory(
+                                        _Inventory.getString("id_inventaris"),
+                                        _Inventory.getString("nama_aset"),
+                                        _Inventory.getString("jumlah"),
+                                        _Inventory.getString("satuan"),
+                                        _Inventory.getString("kondisi"),
+                                        _Inventory.getString("keterangan")
+                                ));
+                            }
+                            //creating adapter object and setting it to recyclerview
+                            InventoryAdapter adapter = new InventoryAdapter(DataInvenMasjid.this, ListInventaris, DataInvenMasjid.this);
+                            recyclerView.setAdapter(adapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }else{
-                }
-            }
-            @Override
-            public void onFailure(Call<List<DatInventaris>> call, Throwable t) {
-                Toast.makeText(DataInvenMasjid.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(DataInvenMasjid.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(this).add(stringRequest);
     }
 
-    public void addHeaders() {
-
-        TableRow tr = new TableRow(this);
-        tr.setLayoutParams(getLayoutParams());
-
-        tr.addView(getTextView(0, "ID", Color.WHITE, Typeface.BOLD, R.color.black, Gravity.CENTER));
-        tr.addView(getTextView(0, "NAMA ASET", Color.WHITE, Typeface.BOLD, R.color.black, Gravity.CENTER));
-        tr.addView(getTextView(0, "JUMLAH", Color.WHITE, Typeface.BOLD, R.color.black, Gravity.CENTER));
-        tr.addView(getTextView(0, "SATUAN", Color.WHITE, Typeface.BOLD, R.color.black, Gravity.CENTER));
-        tr.addView(getTextView(0, "KONDISI", Color.WHITE, Typeface.BOLD, R.color.black, Gravity.CENTER));
-        tr.addView(getTextView(0, "KETERANGAN", Color.WHITE, Typeface.BOLD, R.color.black, Gravity.CENTER));
-        tab.addView(tr, getTblLayoutParams());
-    }
-    private TextView getTextView(int id, String title, int color, int typeface, int bgColor, int grav) {
-        TextView tv = new TextView(this);
-        tv.setId(id);
-        tv.setText(title.toUpperCase());
-        tv.setTextColor(color);
-        tv.setGravity(grav);
-        tv.setPadding(10, 10, 10, 10);
-        tv.setTypeface(Typeface.DEFAULT, typeface);
-        tv.setBackgroundColor(bgColor);
-        tv.setBackgroundResource(bgColor);
-        tv.setLayoutParams(getLayoutParams());
-        return tv;
-    }
-
-    private TextView getRowsTextView(int id, String title, int color, int typeface,int bgColor, int grav) {
-        TextView tv = new TextView(this);
-        tv.setId(id);
-        tv.setGravity(grav);
-        tv.setText(title);
-        tv.setTextColor(color);
-        tv.setPadding(10, 10, 10, 10);
-        tv.setTypeface(Typeface.DEFAULT, typeface);
-        tv.setBackgroundResource(bgColor);
-        tv.setLayoutParams(getLayoutParams());
-        return tv;
+    public void onItemClick(int position) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(DataInventaris.this);
+//        View view = getLayoutInflater().inflate(R.layout.dialog_detail_Inventaris, null);
+//        builder.setTitle("Detail Inventaris");
+//
+//        TvTanggal = (TextView) view.findViewById(R.id.tanggal);
+//        TvWaktu = (TextView) view.findViewById(R.id.waktu);
+//        TvInventaris = (TextView) view.findViewById(R.id.Inventaris);
+//        TvPenganggung = (TextView) view.findViewById(R.id.penanggung);
+//        TvKeterangan = (TextView) view.findViewById(R.id.keterangan);
+//        ImgInventaris = (ImageView) view.findViewById(R.id.ImgInventaris);
+//
+//        TvTanggal.setText(ListInventaris.get(position).getTanggal());
+//        TvWaktu.setText(ListInventaris.get(position).getWaktu());
+//        TvInventaris.setText(ListInventaris.get(position).getInventaris());
+//        TvPenganggung.setText(ListInventaris.get(position).getPenanggungJwb());
+//        TvKeterangan.setText(ListInventaris.get(position).getKeterangan());
+//        Glide.with(DataInventaris.this).load(URL_IMAGES+ListInventaris.get(position).getGambar()).into(ImgInventaris);
+//
+//        builder.setView(view);
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
     }
 }
+
+
+
+
+
+//    public void oke(){
+//        api = ApiClient.getClient().create(ApiInterface.class);
+//        Call<List<DatInventaris>> call = api.getDataInven();
+//        call.enqueue(new Callback<List<DatInventaris>>() {
+//            @Override
+//            public void onResponse(Call<List<DatInventaris>> call, Response<List<DatInventaris>> response) {
+//                barr.setVisibility(View.GONE);
+//                listinven = response.body();
+//                adp = new AdapInven(DataInvenMasjid.this, listinven);
+//                recy.setAdapter(adp);
+//                adp.notifyDataSetChanged();
+//            }
+//            @Override
+//            public void onFailure(Call<List<DatInventaris>> call, Throwable t) {
+//                    Toast.makeText(DataInvenMasjid.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }

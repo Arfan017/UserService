@@ -18,31 +18,31 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 
 public class MenuDash extends AppCompatActivity implements View.OnClickListener {
-
     ImageSlider imagslid;
     BottomNavigationView botnavigas;
-    CardView jdwl,inve,kegi,keu,kur,petug,zak;
+    CardView jdwl,inve,kegi,keu,kur,petug,zak, tentang, pengurus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setTitle("");
         setContentView(R.layout.activity_menu_dash);
+
         jdwl = findViewById(R.id.jadwal);
         keu = findViewById(R.id.keuangan);
         kegi = findViewById(R.id.kegiatan);
         petug = findViewById(R.id.petugas);
-        zak = findViewById(R.id.zakat);
-        kur = findViewById(R.id.kurban);
+        pengurus = findViewById(R.id.pengurus);
         inve = findViewById(R.id.inven);
+        tentang = findViewById(R.id.tentang);
         imagslid = findViewById(R.id.imaslide);
 
         jdwl.setOnClickListener(this);
         keu.setOnClickListener(this);
         kegi.setOnClickListener(this);
         petug.setOnClickListener(this);
-        zak.setOnClickListener(this);
-        kur.setOnClickListener(this);
+        pengurus.setOnClickListener(this);
         inve.setOnClickListener(this);
+        tentang.setOnClickListener(this);
 
         imagesl();
         botnavigas = findViewById(R.id.botmenu);
@@ -67,13 +67,12 @@ public class MenuDash extends AppCompatActivity implements View.OnClickListener 
 
     public void imagesl(){
         ArrayList<SlideModel> slidemod = new ArrayList<>();
-        slidemod.add(new SlideModel(R.drawable.masjid1, ScaleTypes.FIT));
-        slidemod.add(new SlideModel(R.drawable.masjid2, ScaleTypes.FIT));
-        slidemod.add(new SlideModel(R.drawable.masjid3, ScaleTypes.FIT));
-        slidemod.add(new SlideModel(R.drawable.masjid4, ScaleTypes.FIT));
+        slidemod.add(new SlideModel(R.drawable.gambar_1, ScaleTypes.FIT));
+        slidemod.add(new SlideModel(R.drawable.gambar_2, ScaleTypes.FIT));
+        slidemod.add(new SlideModel(R.drawable.gambar_3, ScaleTypes.FIT));
+        slidemod.add(new SlideModel(R.drawable.gambar_4, ScaleTypes.FIT));
         imagslid.setImageList(slidemod, ScaleTypes.FIT);
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -97,19 +96,24 @@ public class MenuDash extends AppCompatActivity implements View.OnClickListener 
                 startActivity(i);
                 finish();
                 break;
-            case R.id.kurban:
-                Intent ii = new Intent(MenuDash.this, DataKurban.class);
+            case R.id.pengurus:
+                Intent ii = new Intent(MenuDash.this, DataPengurus.class);
                 startActivity(ii);
                 finish();
                 break;
-            case R.id.zakat:
-                Intent inte = new Intent(MenuDash.this, DataZakat.class);
-                startActivity(inte);
-                finish();
-                break;
+//            case R.id.zakat:
+//                Intent inte = new Intent(MenuDash.this, DataZakat.class);
+//                startActivity(inte);
+//                finish();
+//                break;
             case R.id.inven:
                 Intent intent = new Intent(MenuDash.this, DataInvenMasjid.class);
                 startActivity(intent);
+                finish();
+                break;
+            case R.id.tentang:
+                Intent intent1 = new Intent(MenuDash.this, Tentang.class);
+                startActivity(intent1);
                 finish();
                 break;
         }

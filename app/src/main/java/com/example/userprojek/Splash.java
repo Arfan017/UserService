@@ -21,6 +21,6 @@ public class Splash extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MenuDash.class));
                 finish();
             }
-        }, 5000l);
+        }, 2000l);
     }
 }

@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements  ApiShalatSchedul
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         tvNextShalatSchedule = findViewById(R.id.tv_next_shalat_schedule);
         tvNextShalatCountdown = findViewById(R.id.tv_next_shalat_countdown);
         tvDateToday = findViewById(R.id.tv_date_today);
@@ -67,9 +68,11 @@ public class MainActivity extends AppCompatActivity implements  ApiShalatSchedul
         spinSetting = findViewById(R.id.spin_setting);
         btnOkSetting = findViewById(R.id.btn_ok_setting);
         citt = findViewById(R.id.cit);
+
         initt();
         checkPreferences();
         init();
+
         botnavv = findViewById(R.id.botjadwal);
         botnavv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -114,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements  ApiShalatSchedul
         citt.setText("DAERAH "+city.getName());
         apiShalatSchedule.getShalat(city.getId());
     }
-
     @Override
     public void onResponse(Shalat shalat) {
         rlMainContent.setVisibility(View.VISIBLE);
@@ -224,7 +226,6 @@ public class MainActivity extends AppCompatActivity implements  ApiShalatSchedul
         MainActivity.cities = cities;
         showSpinner(cities);
     }
-
 
     @Override
     public void onSelectedItem(City city) {
